@@ -145,7 +145,9 @@ mat<T> mat<T>::inverse(){
     float det = this->det();
     if(CMP(det, 0.0f)){
         fprintf(stdout, "[INFO]: inverse not possible as determinant of matrix is %f.\n", det);
-        return mat<T>();
+        mat<T> res;
+        res.malloc();
+        return res;
     }
     return this->adjugate()/this->det();
 }
