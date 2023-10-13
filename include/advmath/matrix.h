@@ -1,6 +1,6 @@
 #pragma once
 #include<fstream>
-#include "vector.h"
+#include<advmath/vector.h>
 
 template<unsigned int T>
 class mat{
@@ -32,10 +32,12 @@ template <unsigned int T>
 inline std::ostream &operator<<(std::ostream &out, mat<T> m){
     out<<"{";
     for(int i=0;i<T;i++){
+        out<<"{";
         for(int j=0;j<T;j++){
             out<<m[i][j];
             if(j+1 != T) out<<", ";
         }
+        out<<"}";
         if(i+1 != T) out<<"\n";
     }
     out<<"}";

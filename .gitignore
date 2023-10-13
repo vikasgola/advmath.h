@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+dist/
+examples/example1
+examples/example2

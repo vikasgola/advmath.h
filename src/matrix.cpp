@@ -1,4 +1,4 @@
-#include "matrix.h"
+#include<advmath/matrix.h>
 #include<cstdio>
 #include<cfloat>
 
@@ -144,7 +144,7 @@ template <unsigned int T>
 mat<T> mat<T>::inverse(){
     float det = this->det();
     if(CMP(det, 0.0f)){
-        fprintf(stdout, "[INFO]: inverse not possible as determinant of matrix is %f.\n", det);
+        fprintf(stdout, "[WARN]: Inverse not possible (determinant = 0). returning zero matrix.\n");
         mat<T> res;
         res.malloc();
         return res;
