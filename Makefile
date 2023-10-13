@@ -18,6 +18,7 @@ examples: all $(EXAMPLES_OUT)
 
 
 $(LIB_DIR)/libadvmath.so: $(OBJS)
+	mkdir -p $(dir $@)
 	$(CXX) -shared -o $(LIB_DIR)/libadvmath.so $(OBJS)
 
 $(LIB_DIR)/libadvmath.a: $(OBJS)
