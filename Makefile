@@ -29,7 +29,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(CXX) $(CPPFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
 
 $(EXAMPLES_OUT): $(EXAMPLES_SRC)
-	$(CXX) $(CPPFLAGS) -I$(INCLUDE_DIR) $(LIB_DIR)/libadvmath.a $< -o $@
+	$(CXX) $(CPPFLAGS) -I$(INCLUDE_DIR) $(LIB_DIR)/libadvmath.a $@.cpp -o $@
 
 
 .PHONY: clean
