@@ -34,4 +34,4 @@ $(EXAMPLES_OUT): $(EXAMPLES_SRC)
 
 .PHONY: clean
 clean:
-	rm -r $(BUILD_DIR) $(EXAMPLES_OUT) $(LIB_DIR) || true
+	rm -rf $(BUILD_DIR) $(EXAMPLES_OUT) $(LIB_DIR)
