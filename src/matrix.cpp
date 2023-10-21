@@ -24,18 +24,24 @@ mat<T>::mat(){
 }
 
 template<unsigned int T>
+mat<T>::mat(const float (&values)[T*T]){
+    memcpy(this->array, values, T*T*sizeof(float));
+}
+
+template<unsigned int T>
 mat<T>::~mat(){
 }
 
-template <unsigned int T>
-void mat<T>::malloc(){
-    this->array = new float[T*T];
+template<unsigned int T>
+mat<T>::mat(float value){
+    for(int i=0;i<T;i++){
+        (*this)[i][i] = value;
+    }
 }
 
 template <unsigned int T>
 mat<T> mat<T>::tras(){
     mat<T> res;
-    res.malloc();
     for(int i=0;i<T;i++){
         for(int j=0;j<T;j++){
             res[i][j] = (*this)[j][i];
@@ -47,7 +53,6 @@ mat<T> mat<T>::tras(){
 template<unsigned int T>
 mat<T> mat<T>::operator*(const float value){
     mat<T> res;
-    res.malloc();
     for(int i=0;i<T*T;i++){
         res.array[i] = this->array[i]*value;
     }
@@ -62,7 +67,6 @@ mat<T> mat<T>::operator/(const float value){
 template<unsigned int T>
 mat<T> mat<T>::operator+(const mat<T>& other){
     mat<T> res;
-    res.malloc();
     for(int i=0;i<T*T;i++){
         res.array[i] = this->array[i]+other.array[i];
     }
@@ -72,7 +76,6 @@ mat<T> mat<T>::operator+(const mat<T>& other){
 template<unsigned int T>
 mat<T> mat<T>::operator-(const mat<T>& other){
     mat<T> res;
-    res.malloc();
     for(int i=0;i<T*T;i++){
         res.array[i] = this->array[i]-other.array[i];
     }
@@ -82,7 +85,6 @@ mat<T> mat<T>::operator-(const mat<T>& other){
 template<unsigned int T>
 mat<T> mat<T>::operator*(const mat<T> &other){
     mat<T> res;
-    res.malloc();
     int rowsA = T;
     int rowsB = T;
     int colsA = T;
@@ -103,7 +105,6 @@ mat<T> mat<T>::operator*(const mat<T> &other){
 template <unsigned int T>
 mat<T - 1> mat<T>::cut(int row, int col){
     mat<T-1> res;
-    res.malloc();
 
     int index = 0;
     for(int i=0;i<T;i++){
@@ -130,7 +131,6 @@ float mat<T>::adjugate(int row, int col){
 template <unsigned int T>
 mat<T> mat<T>::adjugate(){
     mat<T> res;
-    res.malloc();
     for(int i=0;i<T;i++){
         for(int j=0;j<T;j++){
             res[i][j] = this->adjugate(i, j);
@@ -146,7 +146,6 @@ mat<T> mat<T>::inverse(){
     if(CMP(det, 0.0f)){
         fprintf(stdout, "[WARN]: Inverse not possible (determinant = 0). returning zero matrix.\n");
         mat<T> res;
-        res.malloc();
         return res;
     }
     return this->adjugate()/this->det();
@@ -300,42 +299,42 @@ mat4 lookat(vec3 position, vec3 target, vec3 up){
     right.normalize();
     vec3 new_up = forward.cross(right);
 
-    return mat4(
+    return mat4({
         right.x, new_up.x, forward.x, 0.0f,
         right.y, new_up.y, forward.y, 0.0f,
         right.z, new_up.z, forward.z, 0.0f,
         -right.dot(position), -new_up.dot(position), -forward.dot(position), 1.0f
-    );
+    });
 }
 
 mat4 perspective(float fov, float aspect, float near, float far){
-      float tanHalfFov = tanf(DEG2RAD((fov * 0.5f)));
-      float fovY = 1.0f / tanHalfFov; // cot(fov/2)
-      float fovX = fovY / aspect; // cot(fov/2) / aspect
-      mat4 result;
+    float tanHalfFov = tanf(DEG2RAD((fov * 0.5f)));
+    float fovY = 1.0f / tanHalfFov; // cot(fov/2)
+    float fovX = fovY / aspect; // cot(fov/2) / aspect
+    mat4 result;
 
-      result._11 = fovX;
-      result._22 = fovY;
-      result._33 = far / (far - near);
-      result._34 = 1.0f;
-      result._43 = -near * result._33;
-      result._44 = 0.0f;
-      return result;
+    result[1-1][1-1] = fovX;
+    result[2-1][2-1] = fovY;
+    result[3-1][3-1] = far / (far - near);
+    result[3-1][4-1] = 1.0f;
+    result[4-1][3-1] = -near * result[3-1][3-1];
+    result[4-1][4-1] = 0.0f;
+    return result;
 }
 
 mat4 ortho(float left, float right, float bottom, float top, float near, float far){
-      float _11 = 2.0f / (right - left);
-      float _22 = 2.0f / (top - bottom);
-      float _33 = 2.0f / (far - near);
-      float _41 = (left + right) / (left - right);
-      float _42 = (top + bottom) / (bottom - top);
-      float _43 = (near) / (near - far);
-      return mat4(
-         _11, 0.0f, 0.0f, 0.0f,
-         0.0f,  _22, 0.0f, 0.0f,
-         0.0f, 0.0f,  _33, 0.0f,
-         _41,  _42,  _43, 1.0f
-      );
+    float _11 = 2.0f / (right - left);
+    float _22 = 2.0f / (top - bottom);
+    float _33 = 2.0f / (far - near);
+    float _41 = (left + right) / (left - right);
+    float _42 = (top + bottom) / (bottom - top);
+    float _43 = (near) / (near - far);
+    return mat4({
+        _11, 0.0f, 0.0f, 0.0f,
+        0.0f,  _22, 0.0f, 0.0f,
+        0.0f, 0.0f,  _33, 0.0f,
+        _41,  _42,  _43, 1.0f
+    });
 }
 
 

@@ -9,8 +9,9 @@ void print(std::string text, T const& text2){
 int main(){
     // matrix operations
     std::cout<<"=== Matrix Operations ==="<<std::endl;
-    mat2 m(3.0, 2.0, 4.0, 5.0);
-    mat3 m2(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0);
+
+    mat2 m({3.0, 2.0, 4.0, 5.0});
+    mat3 m2({1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0});
     mat3 m3(1.0);
 
     print("m1 -> \n", m);

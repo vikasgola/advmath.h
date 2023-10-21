@@ -5,12 +5,14 @@
 template<unsigned int T>
 class mat{
     public:
-        float *array;
+        float array[T*T] = {0};
 
         mat();
         ~mat();
 
-        void malloc();
+        mat(const float (&values)[T*T]);
+        mat(float value);
+
         float* operator[] (int i);
         mat<T> tras();
         mat<T> operator*(const float value);
@@ -44,125 +46,9 @@ inline std::ostream &operator<<(std::ostream &out, mat<T> m){
     return out;
 }
 
-class mat2: public mat<2>{
-    public:
-        union {
-            struct {
-                float _11, _12,
-                      _21, _22;
-            };
-            float array[2*2] = {0};
-        };
-
-        mat2(float _11, float _12, float _21, float _22)
-            : _11(_11), _12(_12), _21(_21), _22(_22){
-            mat<2>::array = this->array;
-        }
-
-        mat2(float value){
-            mat<2>::array = this->array;
-            for(int i=0;i<2;i++){
-                (*this)[i][i] = value;
-            }
-        }
-
-        mat2(){
-            mat<2>::array = this->array;
-        }
-
-        mat2(const mat<2> m){
-            for(int i=0;i<2*2;i++){
-                this->array[i] = m.array[i];
-            }
-            delete[] m.array;
-        }
-};
-
-class mat3: public mat<3>{
-    public:
-        union {
-            struct {
-                float _11, _12, _13,
-                      _21, _22, _23,
-                      _31, _32, _33;
-            };
-            float array[3*3] = {0};
-        };
-
-        mat3(
-            float _11, float _12, float _13,
-            float _21, float _22, float _23,
-            float _31, float _32, float _33
-        ): _11(_11), _12(_12), _13(_13),
-           _21(_21), _22(_22), _23(_23),
-           _31(_31), _32(_32), _33(_33){
-
-            mat<3>::array = this->array;
-        }
-
-        mat3(float value){
-            mat<3>::array = this->array;
-            for(int i=0;i<3;i++){
-                (*this)[i][i] = value;
-            }
-        }
-
-        mat3(){
-            mat<3>::array = this->array;
-        }
-
-        mat3(const mat<3> m){
-            for(int i=0;i<3*3;i++){
-                this->array[i] = m.array[i];
-            }
-            delete[] m.array;
-        }
-};
-
-class mat4: public mat<4>{
-    public:
-        union {
-            struct {
-                float _11, _12, _13, _14,
-                      _21, _22, _23, _24,
-                      _31, _32, _33, _34,
-                      _41, _42, _43, _44;
-            };
-            float array[4*4] = {0};
-        };
-
-        mat4(
-            float _11, float _12, float _13, float _14,
-            float _21, float _22, float _23, float _24,
-            float _31, float _32, float _33, float _34,
-            float _41, float _42, float _43, float _44
-        ): _11(_11), _12(_12), _13(_13), _14(_14),
-           _21(_21), _22(_22), _23(_23), _24(_24),
-           _31(_31), _32(_32), _33(_33), _34(_34),
-           _41(_41), _42(_42), _43(_43), _44(_44){
-
-            mat<4>::array = this->array;
-        }
-
-        mat4(float value){
-            mat<4>::array = this->array;
-            for(int i=0;i<4;i++){
-                (*this)[i][i] = value;
-            }
-        }
-
-        mat4(){
-            mat<4>::array = this->array;
-        }
-
-        mat4(const mat<4>& m){
-            mat<4>::array = this->array;
-            for(int i=0;i<4*4;i++){
-                this->array[i] = m.array[i];
-            }
-            delete[] m.array;
-        }
-};
+typedef mat<2> mat2;
+typedef mat<3> mat3;
+typedef mat<4> mat4;
 
 mat4 translation(float x, float y, float z);
 mat4 translation(const vec3& loc);
