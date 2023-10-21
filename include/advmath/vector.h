@@ -7,19 +7,12 @@
 template<unsigned int T>
 class vec{
     public:
-        union {
-            struct {
-                float x;
-                float y;
-                float z;
-                float w;
-            };
-            float array[T] = {0.0f};
-        };
+        float *array;
 
         vec(){}
         vec(float value);
 
+        void malloc();
         float& operator[] (int i);
         vec<T> operator+(const vec<T>& other);
         vec<T> operator-(const vec<T>& other);
@@ -52,13 +45,24 @@ inline std::ostream &operator<<(std::ostream &out, vec<T> const &v){
 
 class vec2: public vec<2>{
     public:
+        union {
+            struct {
+                float x;
+                float y;
+            };
+            float array[2] = {0.0f};
+        };
         vec2(float x, float y){
+            vec<2>::array = this->array;
             this->x = x;
             this->y = y;
         }
         vec2(const vec<2>& v){
-            this->x = v.x;
-            this->y = v.y;
+            vec<2>::array = this->array;
+            for(int i=0;i<2;i++){
+                this->array[i] = v.array[i];
+            }
+            delete[] v.array;
         }
         vec2(){}
 };
@@ -66,15 +70,30 @@ class vec2: public vec<2>{
 
 class vec3: public vec<3>{
     public:
+        union {
+            struct {
+                float x;
+                float y;
+                float z;
+            };
+            struct {
+                float r;
+                float g;
+                float b;
+            };
+            float array[3] = {0.0f};
+        };
         vec3(float x, float y, float z){
             this->x = x;
             this->y = y;
             this->z = z;
         }
         vec3(const vec<3>& v){
-            this->x = v.x;
-            this->y = v.y;
-            this->z = v.z;
+            vec<3>::array = this->array;
+            for(int i=0;i<3;i++){
+                this->array[i] = v.array[i];
+            }
+            delete[] v.array;
         }
 
         vec3 cross(vec3 &other){
@@ -91,6 +110,21 @@ class vec3: public vec<3>{
 
 class vec4: public vec<4>{
     public:
+        union {
+            struct {
+                float x;
+                float y;
+                float z;
+                float w;
+            };
+            struct {
+                float r;
+                float g;
+                float b;
+                float a;
+            };
+            float array[4] = {0.0f};
+        };
         vec4(float x, float y, float z, float w){
             this->x = x;
             this->y = y;
@@ -98,10 +132,11 @@ class vec4: public vec<4>{
             this->w = w;
         }
         vec4(const vec<4>& v){
-            this->x = v.x;
-            this->y = v.y;
-            this->z = v.z;
-            this->w = v.w;
+            vec<4>::array = this->array;
+            for(int i=0;i<4;i++){
+                this->array[i] = v.array[i];
+            }
+            delete[] v.array;
         }
         vec4(){}
 };

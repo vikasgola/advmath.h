@@ -15,6 +15,11 @@ vec<T>::vec(float value){
     }
 }
 
+template <unsigned int T>
+void vec<T>::malloc(){
+    this->array = new float[T];
+}
+
 template<unsigned int T>
 float& vec<T>::operator[](int i){
     return this->array[i];
@@ -23,6 +28,7 @@ float& vec<T>::operator[](int i){
 template<unsigned int T>
 vec<T> vec<T>::operator+(const vec<T> &other){
     vec<T> res;
+    res.malloc();
     for(int i=0;i<T;i++){
         res.array[i] = this->array[i]+other.array[i];
     }
@@ -32,6 +38,7 @@ vec<T> vec<T>::operator+(const vec<T> &other){
 template<unsigned int T>
 vec<T> vec<T>::operator-(const vec<T> &other){
     vec<T> res;
+    res.malloc();
     for(int i=0;i<T;i++){
         res.array[i] = this->array[i]-other.array[i];
     }
@@ -41,6 +48,7 @@ vec<T> vec<T>::operator-(const vec<T> &other){
 template<unsigned int T>
 vec<T> vec<T>::operator*(const vec<T> &other){
     vec<T> res;
+    res.malloc();
     for(int i=0;i<T;i++){
         res.array[i] = this->array[i]*other.array[i];
     }
@@ -50,6 +58,7 @@ vec<T> vec<T>::operator*(const vec<T> &other){
 template<unsigned int T>
 vec<T> vec<T>::operator*(const float value){
     vec<T> res;
+    res.malloc();
     for(int i=0;i<T;i++){
         res.array[i] = this->array[i]*value;
     }
@@ -59,6 +68,7 @@ vec<T> vec<T>::operator*(const float value){
 template<unsigned int T>
 vec<T> vec<T>::operator/(const float value){
     vec<T> res;
+    res.malloc();
     for(int i=0;i<T;i++){
         res.array[i] = this->array[i]/value;
     }
