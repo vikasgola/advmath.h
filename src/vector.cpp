@@ -1,5 +1,6 @@
 #include<advmath/vector.h>
 #include<cfloat>
+#include<cmath>
 
 #define CMP(x, y)                    \
     (\

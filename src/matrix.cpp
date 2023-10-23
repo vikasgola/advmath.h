@@ -1,6 +1,8 @@
 #include<advmath/matrix.h>
 #include<cstdio>
 #include<cfloat>
+#include<cmath>
+#include<cstring>
 
 #define CMP(x, y)                    \
     (\

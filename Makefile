@@ -26,10 +26,10 @@ $(LIB_DIR)/libadvmath.a: $(OBJS)
 
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	mkdir -p $(dir $@)
-	$(CXX) $(CPPFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+	$(CXX) $(CPPFLAGS) -fPIC -I$(INCLUDE_DIR) -c $< -o $@
 
 $(EXAMPLES_OUT): $(EXAMPLES_SRC)
-	$(CXX) $(CPPFLAGS) -I$(INCLUDE_DIR) $(LIB_DIR)/libadvmath.a $@.cpp -o $@
+	$(CXX) $(CPPFLAGS) -I$(INCLUDE_DIR) $@.cpp $(LIB_DIR)/libadvmath.a -o $@
 
 
 .PHONY: clean
