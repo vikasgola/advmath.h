@@ -7,21 +7,7 @@
 template<unsigned int T>
 class vec{
     public:
-        union {
-            struct {
-                float x;
-                float y;
-                float z;
-                float w;
-            };
-            struct {
-                float r;
-                float g;
-                float b;
-                float a;
-            };
-            float array[T] = {0.0f};
-        };
+        float array[T] = {0.0f};
 
         vec(){}
         vec(float value);
@@ -59,55 +45,66 @@ inline std::ostream &operator<<(std::ostream &out, vec<T> const &v){
 class vec2: public vec<2>{
     public:
         vec2(float x, float y){
-            this->x = x;
-            this->y = y;
+            this->array[0] = x;
+            this->array[1] = y;
         }
         vec2(const vec<2>& v){
-            this->x = v.x;
-            this->y = v.y;
+            for(int i=0;i<2;i++){
+                this->array[i] = v.array[i];
+            }
         }
         vec2(){}
+
+        float x() const { return this->array[0];}
+        float y() const { return this->array[1];}
 };
 
 
 class vec3: public vec<3>{
     public:
         vec3(float x, float y, float z){
-            this->x = x;
-            this->y = y;
-            this->z = z;
+            this->array[0] = x;
+            this->array[1] = y;
+            this->array[2] = z;
         }
         vec3(const vec<3>& v){
-            this->x = v.x;
-            this->y = v.y;
-            this->z = v.z;
+            for(int i=0;i<3;i++){
+                this->array[i] = v.array[i];
+            }
         }
 
         vec3 cross(vec3 &other){
             vec3 res(
-                this->y*other.z - this->z*other.y,
-                this->z*other.x - this->x*other.z,
-                this->x*other.y - this->y*other.x
+                this->y()*other.z() - this->z()*other.y(),
+                this->z()*other.x() - this->x()*other.z(),
+                this->x()*other.y() - this->y()*other.x()
             );
             return res;
         }
-
         vec3(){}
+
+        float x() const { return this->array[0];}
+        float y() const { return this->array[1];}
+        float z() const { return this->array[2];}
 };
 
 class vec4: public vec<4>{
     public:
         vec4(float x, float y, float z, float w){
-            this->x = x;
-            this->y = y;
-            this->z = z;
-            this->w = w;
+            this->array[0] = x;
+            this->array[1] = y;
+            this->array[2] = z;
+            this->array[3] = w;
         }
         vec4(const vec<4>& v){
-            this->x = v.x;
-            this->y = v.y;
-            this->z = v.z;
-            this->w = v.w;
+            for(int i=0;i<4;i++){
+                this->array[i] = v.array[i];
+            }
         }
         vec4(){}
+
+        float x() const { return this->array[0];}
+        float y() const { return this->array[1];}
+        float z() const { return this->array[2];}
+        float w() const { return this->array[3];}
 };

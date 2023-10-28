@@ -187,9 +187,9 @@ mat4 translation(float x, float y, float z){
 
 mat4 translation(const vec3& loc){
     mat4 t(1.0f);
-    t[3][0] = loc.x;
-    t[3][1] = loc.y;
-    t[3][2] = loc.z;
+    t[3][0] = loc.x();
+    t[3][1] = loc.y();
+    t[3][2] = loc.z();
     return t;
 }
 
@@ -203,9 +203,9 @@ mat4 scale(float x, float y, float z){
 
 mat4 scale(const vec3& loc){
     mat4 t(1.0f);
-    t[0][0] = loc.x;
-    t[1][1] = loc.y;
-    t[2][2] = loc.z;
+    t[0][0] = loc.x();
+    t[1][1] = loc.y();
+    t[2][2] = loc.z();
     return t;
 }
 
@@ -290,7 +290,7 @@ mat3 rotation3x3(float pitch, float yaw, float roll){
 
 mat4 transform(const vec3& scale_factor, const vec3& euler_rotation, const vec3& translate){
     return scale(scale_factor)*rotation(
-        euler_rotation.x, euler_rotation.y, euler_rotation.z
+        euler_rotation.x(), euler_rotation.y(), euler_rotation.z()
     )*translation(translate);
 }
 
@@ -302,9 +302,9 @@ mat4 lookat(vec3 position, vec3 target, vec3 up){
     vec3 new_up = forward.cross(right);
 
     return mat4({
-        right.x, new_up.x, forward.x, 0.0f,
-        right.y, new_up.y, forward.y, 0.0f,
-        right.z, new_up.z, forward.z, 0.0f,
+        right.x(), new_up.x(), forward.x(), 0.0f,
+        right.y(), new_up.y(), forward.y(), 0.0f,
+        right.z(), new_up.z(), forward.z(), 0.0f,
         -right.dot(position), -new_up.dot(position), -forward.dot(position), 1.0f
     });
 }
